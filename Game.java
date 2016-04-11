@@ -24,6 +24,7 @@ public class Game
     private static final String SOUTHEAST = "southeast";
     private static final String SOUTH = "south";
     private static final String WEST = "west";
+    private static final String NORTHWEST = "northwest";
     /**
      * Create the game and initialise its internal map.
      */
@@ -49,13 +50,13 @@ public class Game
         cocina = new Room("la cocina");
         despensa = new Room("una pequeña despensa llena de comida");
         // initialise room exits
-        terraza.setExits(null,salon,pasillo,null,null);
-        salon.setExits(null,habitacion,null,pasillo,terraza);
-        habitacion.setExits(null,null,null,null,salon);
-        pasillo.setExits(salon,salida,despensa,cocina,null);
-        salida.setExits(null,null,null,null,pasillo);
-        cocina.setExits(pasillo,despensa,null,null,null);
-        despensa.setExits(null,null,null,null,cocina);
+        terraza.setExits(null,salon,pasillo,null,null,null);
+        salon.setExits(null,habitacion,null,pasillo,terraza,null);
+        habitacion.setExits(null,null,null,null,salon,null);
+        pasillo.setExits(salon,salida,despensa,cocina,null,terraza);
+        salida.setExits(null,null,null,null,pasillo,null);
+        cocina.setExits(pasillo,despensa,null,null,null,null);
+        despensa.setExits(null,null,null,null,cocina,pasillo);
         currentRoom = habitacion;  // start game outside
     }
 
