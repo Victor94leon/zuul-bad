@@ -87,28 +87,13 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
         printLocationInfo();
         System.out.println();
     }
 
     private void printLocationInfo() {
-        if(currentRoom.getExit(NORTH) != null) {
-            System.out.print(NORTH + " ");
-        }
-        if(currentRoom.getExit(EAST) != null) {
-            System.out.print(EAST + " ");
-        }
-        if(currentRoom.getExit(SOUTHEAST) != null) {
-            System.out.println(SOUTHEAST + " ");
-        }
-        if(currentRoom.getExit(SOUTH) != null) {
-            System.out.print(SOUTH + " ");
-        }
-        if(currentRoom.getExit(WEST) != null) {
-            System.out.print(WEST + " ");
-        }
+        System.out.println("You are " + currentRoom.getDescription());
+        System.out.print(currentRoom.getExitString());
     }
 
     /**
@@ -179,8 +164,6 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
             printLocationInfo();
             System.out.println();
         }

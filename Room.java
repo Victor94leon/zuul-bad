@@ -20,6 +20,11 @@ public class Room
     private Room eastExit;
     private Room westExit;
     private Room southeastExit;
+    private static final String NORTH = "north";
+    private static final String EAST = "east";
+    private static final String SOUTHEAST = "southeast";
+    private static final String SOUTH = "south";
+    private static final String WEST = "west";
 
     /**
      * Create a room described "description". Initially, it has
@@ -64,22 +69,22 @@ public class Room
 
     public Room getExit(String direccion) {
         Room roomExit = null;
-        if(direccion.equals("north")) {
+        if(direccion.equals(NORTH)) {
             roomExit = northExit;
         }else {
-            if(direccion.equals("east")) {
+            if(direccion.equals(EAST)) {
                 roomExit = eastExit;
             }
             else {
-                if(direccion.equals("southeast")) {
+                if(direccion.equals(SOUTHEAST)) {
                     roomExit = southeastExit;
                 }
                 else {
-                    if(direccion.equals("south")) {
+                    if(direccion.equals(SOUTH)) {
                         roomExit = southExit;
                     }
                     else {
-                        if(direccion.equals("west")) {
+                        if(direccion.equals(WEST)) {
                             roomExit = westExit;
                         }
                     }
@@ -87,6 +92,32 @@ public class Room
             }
         }
         return roomExit;
+    }
+
+    /**
+     * Return a description of the room's exits.
+     * For example: "Exits: north east west"
+     *
+     * @ return A description of the available exits.
+     */
+    public String getExitString() {
+        String descripcion = "Exits ";
+        if(getExit(NORTH) != null) {
+            descripcion += NORTH + " ";
+        }
+        if(getExit(EAST) != null) {
+            descripcion += EAST + " ";
+        }
+        if(getExit(SOUTHEAST) != null) {
+            descripcion += SOUTHEAST + " ";
+        }
+        if(getExit(SOUTH) != null) {
+            descripcion += SOUTH + " ";
+        }
+        if(getExit(WEST) != null) {
+            descripcion += WEST + " ";
+        }
+        return descripcion;
     }
 }
 
