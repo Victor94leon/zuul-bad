@@ -45,13 +45,13 @@ public class Game
         cocina = new Room("la cocina");
         despensa = new Room("una pequeña despensa llena de comida");
         // initialise room exits
-        terraza.setExits(null,salon,null,null);
-        salon.setExits(null,habitacion,pasillo,terraza);
-        habitacion.setExits(null,null,null,salon);
-        pasillo.setExits(salon,salida,cocina,null);
-        salida.setExits(null,null,null,pasillo);
-        cocina.setExits(pasillo,despensa,null,null);
-        despensa.setExits(null,null,null,cocina);
+        terraza.setExits(null,salon,pasillo,null,null);
+        salon.setExits(null,habitacion,null,pasillo,terraza);
+        habitacion.setExits(null,null,null,null,salon);
+        pasillo.setExits(salon,salida,despensa,cocina,null);
+        salida.setExits(null,null,null,null,pasillo);
+        cocina.setExits(pasillo,despensa,null,null,null);
+        despensa.setExits(null,null,null,null,cocina);
         currentRoom = habitacion;  // start game outside
     }
 
@@ -95,6 +95,9 @@ public class Game
         }
         if(currentRoom.eastExit != null) {
             System.out.print("east ");
+        }
+        if(currentRoom.southeastExit != null) {
+            System.out.println("southeast ");
         }
         if(currentRoom.southExit != null) {
             System.out.print("south ");
@@ -169,6 +172,9 @@ public class Game
         }
         if(direction.equals("east")) {
             nextRoom = currentRoom.eastExit;
+        }
+        if(direction.equals("southeast")) {
+            nextRoom = currentRoom.southeastExit;
         }
         if(direction.equals("south")) {
             nextRoom = currentRoom.southExit;
