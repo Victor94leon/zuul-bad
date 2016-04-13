@@ -24,8 +24,8 @@ public class Room
     private static final String SOUTH = "south";
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
-    private HashMap<String,Room> lista;
-    
+    private HashMap<String,Room> listaSalidas;
+
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -35,25 +35,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        lista = new HashMap<String,Room>();
-    }
-
-    /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-    public void setExits(Room north, Room east,Room southeast, Room south, Room west, Room northwest) 
-    {
-        lista.put("north",north);
-        lista.put("east",east);
-        lista.put("southeast",southeast);
-        lista.put("south",south);
-        lista.put("west",west);
-        lista.put("northwest",northwest);
+        listaSalidas = new HashMap<String,Room>();
     }
 
     /**
@@ -65,7 +47,7 @@ public class Room
     }
 
     public Room getExit(String direccion) {
-        Room roomExit = lista.get(direccion);
+        Room roomExit = listaSalidas.get(direccion);
         return roomExit;
     }
 
@@ -96,5 +78,14 @@ public class Room
             descripcion += NORTHWEST + " ";
         }
         return descripcion;
+    }
+
+    /**
+     * Define an exit from this room.
+     * @param direction The direction of the exit.
+     * @param neighbor The room in the given direction.
+     */
+    public void setExit(String direction, Room neighbor) {
+        listaSalidas.put(direction,neighbor);
     }
 }

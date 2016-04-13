@@ -50,13 +50,29 @@ public class Game
         cocina = new Room("la cocina");
         despensa = new Room("una pequeña despensa llena de comida");
         // initialise room exits
-        terraza.setExits(null,salon,pasillo,null,null,null);
-        salon.setExits(null,habitacion,null,pasillo,terraza,null);
-        habitacion.setExits(null,null,null,null,salon,null);
-        pasillo.setExits(salon,salida,despensa,cocina,null,terraza);
-        salida.setExits(null,null,null,null,pasillo,null);
-        cocina.setExits(pasillo,despensa,null,null,null,null);
-        despensa.setExits(null,null,null,null,cocina,pasillo);
+        //Salidas de terraza
+        terraza.setExit("east",salon);
+        terraza.setExit("southeast",pasillo);
+        //Salidas de salon
+        salon.setExit("east",habitacion);
+        salon.setExit("south",pasillo);
+        salon.setExit("west",terraza);
+        //Salidas de habitacion
+        habitacion.setExit("west",salon);
+        //Salidas de pasillo
+        pasillo.setExit("north",salon);
+        pasillo.setExit("east",salida);
+        pasillo.setExit("southeast",despensa);
+        pasillo.setExit("south",cocina);
+        pasillo.setExit("northwest",terraza);
+        //Salidas de salida
+        salida.setExit("west",pasillo);
+        //Salidas de cocina
+        cocina.setExit("north",pasillo);
+        cocina.setExit("east",despensa);
+        //SAlidas de despensa
+        despensa.setExit("west",cocina);
+        despensa.setExit("northwest",pasillo);
         currentRoom = habitacion;  // start game outside
     }
 
