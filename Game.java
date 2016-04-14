@@ -42,13 +42,13 @@ public class Game
         Room terraza,salon,habitacion,pasillo,salida,cocina,despensa;
 
         // create the rooms
-        terraza = new Room("una terraza");
-        salon = new Room("el salón de la casa");
-        habitacion = new Room("el dormitorio");
-        pasillo = new Room("el pasillo central de la casa");
-        salida = new Room("la puerta de salida");
-        cocina = new Room("la cocina");
-        despensa = new Room("una pequeña despensa llena de comida");
+        terraza = new Room("una terraza","Florero",6);
+        salon = new Room("el salón de la casa","Mando a distancia",1);
+        habitacion = new Room("el dormitorio","Ordenador",4);
+        pasillo = new Room("el pasillo central de la casa","Teléfono",2);
+        salida = new Room("la puerta de salida","Paraguas",2);
+        cocina = new Room("la cocina","Sarten",3);
+        despensa = new Room("una pequeña despensa llena de comida","Llave",1);
         // initialise room exits
         //Salidas de terraza
         terraza.setExit("east",salon);

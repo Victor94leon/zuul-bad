@@ -25,17 +25,21 @@ public class Room
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
     private HashMap<String,Room> listaSalidas;
-
+    private String descripcionItem;
+    private int pesoItem;
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description, String descripcionItem, int pesoItem) 
     {
         this.description = description;
         listaSalidas = new HashMap<String,Room>();
+        this.descripcionItem = descripcionItem;
+        this.pesoItem = pesoItem;
     }
 
     /**
