@@ -155,7 +155,7 @@ public class Game
         System.out.println("Estás encerrado en tu casa");
         System.out.println("Tienes que salir antes de llegar tarde al trabajo");
         System.out.println();
-        parser.getCommands().showAll();
+        parser.printCommandWords();
     }
 
     /** 

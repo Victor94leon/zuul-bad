@@ -69,4 +69,11 @@ public class Parser
     public CommandWords getCommands() {
         return commands;
     }
+    
+    /**
+     * Imprime por pantalla los comandos disponibles
+     */
+    public void printCommandWords() {
+        commands.showAll();
+    }
 }
