@@ -102,4 +102,11 @@ public class Room
     public String getLongDescription() {
         return "Estás en " + description + "\n" + getExitString();
     }
+    
+    /**
+     * Devuelve una cadena con la información de los objetos que hay en las salas
+     */
+    public String getItemDescription() {
+        return "Objeto en la sala: " + descripcionItem + " " + pesoItem + " Kg";
+    }
 }
