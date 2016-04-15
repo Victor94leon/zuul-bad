@@ -16,8 +16,6 @@ import java.util.HashMap;
 public class Room 
 {
     private String description;
-    private Room southeastExit;
-    private Room northwestExit;
     private static final String NORTH = "north";
     private static final String EAST = "east";
     private static final String SOUTHEAST = "southeast";
@@ -63,23 +61,8 @@ public class Room
      */
     public String getExitString() {
         String descripcion = "Exits: ";
-        if(getExit(NORTH) != null) {
-            descripcion += NORTH + " ";
-        }
-        if(getExit(EAST) != null) {
-            descripcion += EAST + " ";
-        }
-        if(getExit(SOUTHEAST) != null) {
-            descripcion += SOUTHEAST + " ";
-        }
-        if(getExit(SOUTH) != null) {
-            descripcion += SOUTH + " ";
-        }
-        if(getExit(WEST) != null) {
-            descripcion += WEST + " ";
-        }
-        if(getExit(NORTHWEST) != null) {
-            descripcion += NORTHWEST + " ";
+        for(String nombreSala : listaSalidas.keySet()) {
+            descripcion += nombreSala + " ";
         }
         return descripcion;
     }
