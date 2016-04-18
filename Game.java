@@ -25,6 +25,7 @@ public class Game
     private static final String SOUTH = "south";
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
+    private Room lastRoom;
     /**
      * Create the game and initialise its internal map.
      */
@@ -152,6 +153,9 @@ public class Game
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
         }
+        else if(commandWord.equals("back")) {
+            backRoom();
+        }
         return wantToQuit;
     }
 
@@ -193,6 +197,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            lastRoom = currentRoom;
             currentRoom = nextRoom;
             printLocationInfo();
             System.out.println();
@@ -212,6 +217,19 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
+        }
+    }
+
+    /**
+     * Vuelve a la habitación anterior
+     */
+    private void backRoom() {
+        if(lastRoom != null) {
+            Room actualRoom = currentRoom;
+            currentRoom = lastRoom;
+            lastRoom = actualRoom;
+            printLocationInfo();
+            System.out.println();
         }
     }
 }
