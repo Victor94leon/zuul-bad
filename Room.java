@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -16,28 +17,19 @@ import java.util.HashMap;
 public class Room 
 {
     private String description;
-    private static final String NORTH = "north";
-    private static final String EAST = "east";
-    private static final String SOUTHEAST = "southeast";
-    private static final String SOUTH = "south";
-    private static final String WEST = "west";
-    private static final String NORTHWEST = "northwest";
     private HashMap<String,Room> listaSalidas;
-    private String descripcionItem;
-    private int pesoItem;
-    
+    private ArrayList<Item> listaItems;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description, String descripcionItem, int pesoItem) 
+    public Room(String description) 
     {
         this.description = description;
         listaSalidas = new HashMap<String,Room>();
-        this.descripcionItem = descripcionItem;
-        this.pesoItem = pesoItem;
+        listaItems = new ArrayList<Item>();
     }
 
     /**
@@ -85,11 +77,26 @@ public class Room
     public String getLongDescription() {
         return "Estás en " + description + "\n" + getExitString();
     }
-    
+
     /**
-     * Devuelve una cadena con la información de los objetos que hay en las salas
+     * Añade un item a la localización
      */
-    public String getItemDescription() {
-        return "Objeto en la sala: " + descripcionItem + " " + pesoItem + " Kg";
+    public void addItem(String descripcionItem, int pesoItem) {
+        listaItems.add(new Item(descripcionItem, pesoItem));
+    }
+
+    /**
+     * Muestra los objetos de la habitación
+     */
+    public void printItems() {
+        if(listaItems.size()>0) {
+            System.out.println("Lista de objetos:");
+            for (Item itemEnLista : listaItems) {
+                System.out.println(itemEnLista.informacionItem());
+            }
+        }
+        else {
+            System.out.println("No hay objetos en esta sala");
+        }
     }
 }

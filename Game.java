@@ -42,13 +42,13 @@ public class Game
         Room terraza,salon,habitacion,pasillo,salida,cocina,despensa;
 
         // create the rooms
-        terraza = new Room("una terraza","Florero",6);
-        salon = new Room("el salón de la casa","Mando a distancia",1);
-        habitacion = new Room("el dormitorio","Ordenador",4);
-        pasillo = new Room("el pasillo central de la casa","Teléfono",2);
-        salida = new Room("la puerta de salida","Paraguas",2);
-        cocina = new Room("la cocina","Sarten",3);
-        despensa = new Room("una pequeña despensa llena de comida","Llave",1);
+        terraza = new Room("una terraza");
+        salon = new Room("el salón de la casa");
+        habitacion = new Room("el dormitorio");
+        pasillo = new Room("el pasillo central de la casa");
+        salida = new Room("la puerta de salida");
+        cocina = new Room("la cocina");
+        despensa = new Room("una pequeña despensa llena de comida");
         // initialise room exits
         //Salidas de terraza
         terraza.setExit("east",salon);
@@ -73,7 +73,15 @@ public class Game
         //SAlidas de despensa
         despensa.setExit("west",cocina);
         despensa.setExit("northwest",pasillo);
-        currentRoom = habitacion;  // start game outside
+        // Items en las habitaciones
+        terraza.addItem("Maceta",7);
+        terraza.addItem("Silla",5);
+        habitacion.addItem("Zapatillas", 2);
+        habitacion.addItem("Cazadora",4);
+        habitacion.addItem("Ordenador portatil", 5);
+        salon.addItem("Mando a distancia",1);
+        despensa.addItem("Llave", 1);
+        currentRoom = habitacion;  //start game outside
     }
 
     /**
@@ -110,7 +118,7 @@ public class Game
 
     private void printLocationInfo() {
         System.out.println(currentRoom.getLongDescription());
-        System.out.println(currentRoom.getItemDescription());
+        currentRoom.printItems();
     }
 
     /**
@@ -139,7 +147,7 @@ public class Game
         }
         else if (commandWord.equals("look")) {
             System.out.println(currentRoom.getLongDescription());
-            System.out.println(currentRoom.getItemDescription());
+            currentRoom.printItems();
         }
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
