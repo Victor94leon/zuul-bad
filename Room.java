@@ -99,4 +99,36 @@ public class Room
             System.out.println("No hay objetos en esta sala");
         }
     }
+
+    /**
+     * Busca un item en la localización que coincida con una 
+     * cadena introducida por parámetro
+     */
+    public Item buscarItem(String descripcion) {
+        int index = 0;
+        boolean encontrado = false;
+        Item item = null;
+        while(index<listaItems.size() && !encontrado) {
+            if(listaItems.get(index).getDescripcionItem().equals(descripcion)) {
+                item = listaItems.get(index);
+            }
+            index++;
+        }
+        return item;
+    }
+
+    /**
+     * Borra una item de la localización que coincida con 
+     * un item insertado por parámetro
+     */
+    public void removeItem(Item item) {
+        int index = 0;
+        boolean encontrado = false;
+        while(index<listaItems.size() && !encontrado) {
+            if(listaItems.get(index)==item) {
+                listaItems.remove(index);
+            }
+            index++;
+        }
+    }
 }
