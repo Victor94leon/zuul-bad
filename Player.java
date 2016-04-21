@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class Player
 {
-    private int PESO_MAXIMO = 5;
+    static final int PESO_MAXIMO = 5;
     private int pesoAlmacenado;
     private ArrayList<Item> playerItems;
 
@@ -13,4 +13,8 @@ public class Player
         playerItems = new ArrayList<Item>();
         pesoAlmacenado = 0;
     }
+    
+    /**
+     * 
+     */
 }
