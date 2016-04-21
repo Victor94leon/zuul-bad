@@ -39,6 +39,13 @@ public class Room
     {
         return description;
     }
+    
+    /**
+     * Devuelve una colección con los objetos de la localización
+     */
+    public ArrayList<Item> getListaItems() {
+        return listaItems;
+    }
 
     public Room getExit(String direccion) {
         Room roomExit = listaSalidas.get(direccion);

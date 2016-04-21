@@ -256,15 +256,28 @@ public class Game
             return;
         }
         String descripcionItem = command.getSecondWord();
-        // Crea una copia del item de la localización que coincida con la descripcion del comando
-        Item item = currentRoom.buscarItem(descripcionItem);
-        // Añade el item al usuario
-        player.addItemPlayer(item);
-        // Borra el item de la localización
-        currentRoom.removeItem(item);
-        // Muestra por pantalla la información de la localización
-        printLocationInfo();
-        System.out.println();
+
+        ArrayList<Item> itemsRoom = currentRoom.getListaItems();
+        boolean itemEncontrado = false;
+        int index = 0;
+
+        while (!itemEncontrado && index<itemsRoom.size()) {
+            if(itemsRoom.get(index).getDescripcionItem().equals(descripcionItem)) {
+                // Crea una copia del item de la localización que coincida con la descripcion del comando
+                Item item = currentRoom.buscarItem(descripcionItem);
+                // Añade el item al usuario
+                player.addItemPlayer(item);
+                // Borra el item de la localización
+                currentRoom.removeItem(item);
+                // Muestra por pantalla la información de la localización
+                printLocationInfo();
+                System.out.println();
+            }
+            index++;
+        }
+        if(itemEncontrado == false) {
+            System.out.println("No se encontro ese objeto");
+        }
     }
 
     /**
@@ -276,15 +289,29 @@ public class Game
             return;
         }
         String descripcionItem = command.getSecondWord();
-        // Crea una copia del item del jugador que coincida con la descripcion del comando
-        Item item = player.buscarItemPlayer(descripcionItem);
-        // Añade el item a la localización
-        currentRoom.addItem(item.getDescripcionItem(),item.getPesoItem());
-        // Borra el item del jugador
-        player.reomveItemPlayer(item);
-        // Muestra por pantalla la información de la localización
-        printLocationInfo();
-        System.out.println();
+
+        ArrayList<Item> itemsPlayer = player.devolverItems();
+        boolean itemEncontrado = false;
+        int index = 0;
+        while (!itemEncontrado && index<itemsPlayer.size()) {
+            if(itemsPlayer.get(index).getDescripcionItem().equals(descripcionItem)) {
+                itemEncontrado = true;
+
+                // Crea una copia del item del jugador que coincida con la descripcion del comando
+                Item item = player.buscarItemPlayer(descripcionItem);
+                // Añade el item a la localización
+                currentRoom.addItem(item.getDescripcionItem(),item.getPesoItem());
+                // Borra el item del jugador
+                player.reomveItemPlayer(item);
+                // Muestra por pantalla la información de la localización
+                printLocationInfo();
+                System.out.println();
+            }
+            index++;
+        }
+        if(itemEncontrado == false) {
+            System.out.println("No se encontro ese objeto");
+        }
     }
 
     /**
