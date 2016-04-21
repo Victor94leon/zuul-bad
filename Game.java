@@ -263,6 +263,7 @@ public class Game
 
         while (!itemEncontrado && index<itemsRoom.size()) {
             if(itemsRoom.get(index).getDescripcionItem().equals(descripcionItem)) {
+                itemEncontrado = true;
                 // Crea una copia del item de la localización que coincida con la descripcion del comando
                 Item item = currentRoom.buscarItem(descripcionItem);
                 // Añade el item al usuario
