@@ -27,6 +27,7 @@ public class Game
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
     private Stack<Room> roomsAnteriores;
+    private Player player;
     /**
      * Create the game and initialise its internal map.
      */
@@ -35,6 +36,7 @@ public class Game
         createRooms();
         parser = new Parser();
         roomsAnteriores = new Stack<Room>();
+        player = new Player();
     }
 
     /**
@@ -158,6 +160,9 @@ public class Game
         else if(commandWord.equals("back")) {
             backRoom();
         }
+        else if (commandWord.equals("take")) {
+            takeItem(command);
+        }
         return wantToQuit;
     }
 
@@ -234,5 +239,25 @@ public class Game
         else {
             System.out.println("No hay localizaciones anteriores");
         }
+    }
+    
+    /**
+     * Recoge un item de la localización y se lo añade al jugador
+     */
+    private void takeItem(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        String descripcionItem = command.getSecondWord();
+        // Crea una copia del item de la localización que coincida con la descripcion del comando
+        Item item = currentRoom.buscarItem(descripcionItem);
+        // Añade el item al usuario
+        player.addItemPlayer(item);
+        // Borra el item de la localización
+        currentRoom.removeItem(item);
+        // Muestra por pantalla la información de la localización
+        printLocationInfo();
+        System.out.println();
     }
 }
