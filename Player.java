@@ -15,6 +15,16 @@ public class Player
     }
     
     /**
-     * 
+     * Devuelve el peso llevado por el jugador
      */
+    public int getPesoAlmacenado() {
+        return pesoAlmacenado;
+    }
+    
+    /**
+     * Devuelve los objetos que tiene el jugador
+     */
+    public ArrayList<Item> devolverItems() {
+        return playerItems;
+    }
 }
