@@ -83,7 +83,7 @@ public class Game
         terraza.addItem("Silla",5);
         habitacion.addItem("Zapatillas", 2);
         habitacion.addItem("Cazadora",4);
-        habitacion.addItem("Ordenador portatil", 5);
+        habitacion.addItem("Ordenador", 6);
         salon.addItem("Mando a distancia",1);
         despensa.addItem("Llave", 1);
         currentRoom = habitacion;  //start game outside
@@ -240,7 +240,7 @@ public class Game
             System.out.println("No hay localizaciones anteriores");
         }
     }
-    
+
     /**
      * Recoge un item de la localización y se lo añade al jugador
      */
@@ -256,6 +256,26 @@ public class Game
         player.addItemPlayer(item);
         // Borra el item de la localización
         currentRoom.removeItem(item);
+        // Muestra por pantalla la información de la localización
+        printLocationInfo();
+        System.out.println();
+    }
+
+    /**
+     * Suelta un objeto en la localización actual
+     */
+    private void dropItem(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+            return;
+        }
+        String descripcionItem = command.getSecondWord();
+        // Crea una copia del item del jugador que coincida con la descripcion del comando
+        Item item = player.buscarItemPlayer(descripcionItem);
+        // Añade el item a la localización
+        currentRoom.addItem(item.getDescripcionItem(),item.getPesoItem());
+        // Borra el item del jugador
+        player.reomveItemPlayer(item);
         // Muestra por pantalla la información de la localización
         printLocationInfo();
         System.out.println();
