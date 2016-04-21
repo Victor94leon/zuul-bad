@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -84,7 +85,6 @@ public class Game
         habitacion.addItem("Zapatillas", 2);
         habitacion.addItem("Cazadora",4);
         habitacion.addItem("Ordenador", 6);
-        salon.addItem("Mando a distancia",1);
         despensa.addItem("Llave", 1);
         currentRoom = habitacion;  //start game outside
     }
@@ -162,6 +162,12 @@ public class Game
         }
         else if (commandWord.equals("take")) {
             takeItem(command);
+        }
+        else if (commandWord.equals("drop")) {
+            dropItem(command);
+        }
+        else if (commandWord.equals("items")) {
+            showItemsPlayer();
         }
         return wantToQuit;
     }
@@ -279,5 +285,20 @@ public class Game
         // Muestra por pantalla la información de la localización
         printLocationInfo();
         System.out.println();
+    }
+
+    /**
+     * Muestra por pantalla la lista de objetos que tiene el jugador
+     */
+    private void showItemsPlayer() {
+        if(player.devolverItems().size() != 0) {
+            ArrayList<Item> listaItems = player.devolverItems();
+            for(Item itemEnLista : listaItems) {
+                System.out.println(itemEnLista.informacionItem());
+            }
+        }
+        else {
+            System.out.print("El jugador no tiene objetos\n");
+        }
     }
 }
