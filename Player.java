@@ -102,7 +102,10 @@ public class Player
      */
     public void takeItem(String descripcion) {
         Item item = currentRoom.buscarItem(descripcion);
-        if(item != null && (pesoAlmacenado() + item.getPesoItem()< PESO_MAXIMO)) {
+        if(item != null && !item.puedeSerCogido()) {
+            System.out.println("El objeto no se puede coger");
+        }
+        else if(item != null && (pesoAlmacenado() + item.getPesoItem()< PESO_MAXIMO)) {
             playerItems.add(item);
             currentRoom.removeItem(item);
             System.out.println("Has cogido " + item.getDescripcionItem());
@@ -122,7 +125,7 @@ public class Player
         boolean itemEncontrado = false;
         for(int index = 0; index<playerItems.size() && !itemEncontrado; index++) {
             if(playerItems.get(index).getDescripcionItem().equals(descripcion)) {
-                currentRoom.addItem(playerItems.get(index).getDescripcionItem(),playerItems.get(index).getPesoItem());
+                currentRoom.addItem(playerItems.get(index).getDescripcionItem(),playerItems.get(index).getPesoItem(),true);
                 playerItems.remove(playerItems.get(index));
                 itemEncontrado = true;
                 System.out.println("Has soltado un objeto");

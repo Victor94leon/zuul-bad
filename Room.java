@@ -88,8 +88,8 @@ public class Room
     /**
      * Añade un item a la localización
      */
-    public void addItem(String descripcionItem, int pesoItem) {
-        listaItems.add(new Item(descripcionItem, pesoItem));
+    public void addItem(String descripcionItem, int pesoItem, boolean puedeSerCogido) {
+        listaItems.add(new Item(descripcionItem, pesoItem, puedeSerCogido));
     }
 
     /**

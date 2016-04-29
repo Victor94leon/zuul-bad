@@ -78,12 +78,15 @@ public class Game
         despensa.setExit("west",cocina);
         despensa.setExit("northwest",pasillo);
         // Items en las habitaciones
-        terraza.addItem("Maceta",7);
-        terraza.addItem("Silla",5);
-        habitacion.addItem("Zapatillas", 2);
-        habitacion.addItem("Cazadora",4);
-        habitacion.addItem("Ordenador", 6);
-        despensa.addItem("Llave", 1);
+
+        terraza.addItem("Silla",4,false);
+        habitacion.addItem("Zapatillas", 2,true);
+        habitacion.addItem("Cazadora",4,true);
+        habitacion.addItem("Ordenador", 6, true);
+        despensa.addItem("Llave", 1,true);
+        pasillo.addItem("Paraguas",2,true);
+        salon.addItem("Tele",3,false);
+        salon.addItem("Mando",1,true);
         player.setCurrentRoom(habitacion);  //start game outside
     }
 

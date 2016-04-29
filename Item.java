@@ -2,14 +2,15 @@ public class Item
 {
     private String descripcionItem;
     private int pesoItem;
-
+    private boolean puedeSerCogido;
     /**
      * Constructor for objects of class Item
      */
-    public Item(String descripcionItem, int pesoItem)
+    public Item(String descripcionItem, int pesoItem, boolean puedeSerCogido)
     {
         this.descripcionItem = descripcionItem;
         this.pesoItem = pesoItem;
+        this.puedeSerCogido = puedeSerCogido;
     }
     
     /**
@@ -24,6 +25,13 @@ public class Item
      */
     public int getPesoItem() {
         return pesoItem;
+    }
+    
+    /**
+     * Devuelve si el objeto puede recogerse o no
+     */
+    public boolean puedeSerCogido() {
+        return puedeSerCogido;
     }
     
     /**
