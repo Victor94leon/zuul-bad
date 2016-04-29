@@ -1,9 +1,8 @@
-///////////////////////////////////////////////////////////////////
 import java.util.Stack;
 import java.util.ArrayList;
 public class Player
 {
-    static final int PESO_MAXIMO = 5;
+    static final int PESO_MAXIMO = 7;
     private ArrayList<Item> playerItems;
     private Room currentRoom;
     private Stack<Room> roomsAnteriores;
@@ -29,24 +28,16 @@ public class Player
     }
 
     /**
-     * Devuelve los objetos que tiene el jugador
-     */
-    public ArrayList<Item> devolverItems() {
-        return playerItems;
-    }
-
-    /**
-     * 
+     * Asigna un valor a currentRoom
      */
     public void setCurrentRoom(Room room) {
-        if(currentRoom!=null) {
-            roomsAnteriores.push(currentRoom);
+        if(currentRoom==null) {
+            currentRoom = room;
         }
-        currentRoom = room;
     }
 
     /**
-     * 
+     * Imprime por pantalla la información un la localización actual
      */
     public void printLocationInfo() {
         System.out.println(currentRoom.getLongDescription());
@@ -64,14 +55,10 @@ public class Player
             System.out.println("Go where?");
             return;
         }
-
         String direction = command.getSecondWord();
-
         // Try to leave current room.
         Room nextRoom = null;
-
         nextRoom = currentRoom.getExit(direction);
-
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -102,19 +89,21 @@ public class Player
      */
     public void takeItem(String descripcion) {
         Item item = currentRoom.buscarItem(descripcion);
-        if(item != null && !item.puedeSerCogido()) {
+        if(item == null) {
+            System.out.println("take what?");
+        }
+        else if(!item.puedeSerCogido()) {
             System.out.println("El objeto no se puede coger");
         }
-        else if(item != null && (pesoAlmacenado() + item.getPesoItem()< PESO_MAXIMO)) {
-            playerItems.add(item);
-            currentRoom.removeItem(item);
-            System.out.println("Has cogido " + item.getDescripcionItem());
-        }
-        else if (item!=null && pesoAlmacenado() + item.getPesoItem()>= PESO_MAXIMO){
-            System.out.println("El jugador no puede llevar tanto peso");
-        }
         else {
-            System.out.println("take what?");
+            if(item.getPesoItem()+pesoAlmacenado() >= PESO_MAXIMO) {
+                System.out.println("El jugador no puede llevar tanto peso");
+            }
+            else {
+                playerItems.add(item);
+                currentRoom.removeItem(item);
+                System.out.println("Has cogido " + item.getDescripcionItem());
+            }
         }
     }
 
