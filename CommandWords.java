@@ -1,3 +1,4 @@
+import java.util.HashMap;
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -11,17 +12,24 @@
 
 public class CommandWords
 {
-    // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-            "go", "quit", "help", "look", "eat", "back", "take", "drop", "items"
-        };
+    private HashMap<String,Option> validCommands;       
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        validCommands = new HashMap<String,Option>();
+        validCommands.put("go",Option.GO);
+        validCommands.put("quit",Option.QUIT);
+        validCommands.put("help",Option.HELP);
+        validCommands.put("look",Option.LOOK);
+        validCommands.put("eat",Option.EAT);
+        validCommands.put("back",Option.BACK);
+        validCommands.put("take",Option.TAKE);
+        validCommands.put("drop",Option.DROP);
+        validCommands.put("items",Option.ITEMS);
+        validCommands.put("unknown",Option.UNKNOWN);
     }
 
     /**
@@ -31,12 +39,7 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+        return validCommands.containsKey(aString);
     }
 
     /**
@@ -44,8 +47,8 @@ public class CommandWords
      */
     public void showAll() {
         String cadenaComandos = "Your command words are:\n";
-        for(int index = 0; index<validCommands.length; index++) {
-            cadenaComandos += validCommands[index] + " ";
+        for(String keyEnLista : validCommands.keySet()) {
+            cadenaComandos += keyEnLista + " ";
         }
         System.out.println(cadenaComandos);
     }
