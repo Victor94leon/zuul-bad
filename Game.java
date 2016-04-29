@@ -20,24 +20,22 @@ import java.util.ArrayList;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
+    private Player player;
     private static final String NORTH = "north";
     private static final String EAST = "east";
     private static final String SOUTHEAST = "southeast";
     private static final String SOUTH = "south";
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
-    private Stack<Room> roomsAnteriores;
-    private Player player;
+    
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
         parser = new Parser();
-        roomsAnteriores = new Stack<Room>();
         player = new Player();
+        createRooms();
     }
 
     /**
@@ -86,7 +84,7 @@ public class Game
         habitacion.addItem("Cazadora",4);
         habitacion.addItem("Ordenador", 6);
         despensa.addItem("Llave", 1);
-        currentRoom = habitacion;  //start game outside
+        player.setCurrentRoom(habitacion);  //start game outside
     }
 
     /**
@@ -117,13 +115,8 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
+        player.printLocationInfo();
         System.out.println();
-    }
-
-    private void printLocationInfo() {
-        System.out.println(currentRoom.getLongDescription());
-        currentRoom.printItems();
     }
 
     /**
@@ -145,29 +138,28 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            player.goRoom(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
         else if (commandWord.equals("look")) {
-            System.out.println(currentRoom.getLongDescription());
-            currentRoom.printItems();
+            player.printLocationInfo();
         }
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
         }
         else if(commandWord.equals("back")) {
-            backRoom();
+            player.backRoom();
         }
         else if (commandWord.equals("take")) {
-            takeItem(command);
+            player.takeItem(command.getSecondWord());
         }
         else if (commandWord.equals("drop")) {
-            dropItem(command);
+            player.dropItem(command.getSecondWord());
         }
         else if (commandWord.equals("items")) {
-            showItemsPlayer();
+            player.showItemsPlayer();
         }
         return wantToQuit;
     }
@@ -187,35 +179,7 @@ public class Game
         parser.printCommandWords();
     }
 
-    /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
 
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = null;
-
-        nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            roomsAnteriores.push(currentRoom);
-            currentRoom = nextRoom;
-            printLocationInfo();
-            System.out.println();
-        }
-    }
 
     /** 
      * "Quit" was entered. Check the rest of the command to see
@@ -233,100 +197,5 @@ public class Game
         }
     }
 
-    /**
-     * Vuelve a la habitación anterior
-     */
-    private void backRoom() {
-        if(!roomsAnteriores.empty()) {
-            currentRoom = roomsAnteriores.pop();
-            printLocationInfo();
-            System.out.println();
-        }
-        else {
-            System.out.println("No hay localizaciones anteriores");
-        }
-    }
 
-    /**
-     * Recoge un item de la localización y se lo añade al jugador
-     */
-    private void takeItem(Command command) {
-        if(!command.hasSecondWord()) {
-            System.out.println("Take what?");
-            return;
-        }
-        String descripcionItem = command.getSecondWord();
-
-        ArrayList<Item> itemsRoom = currentRoom.getListaItems();
-        boolean itemEncontrado = false;
-        int index = 0;
-
-        while (!itemEncontrado && index<itemsRoom.size()) {
-            if(itemsRoom.get(index).getDescripcionItem().equals(descripcionItem)) {
-                itemEncontrado = true;
-                // Crea una copia del item de la localización que coincida con la descripcion del comando
-                Item item = currentRoom.buscarItem(descripcionItem);
-                // Añade el item al usuario
-                player.addItemPlayer(item);
-                // Borra el item de la localización
-                currentRoom.removeItem(item);
-                // Muestra por pantalla la información de la localización
-                printLocationInfo();
-                System.out.println();
-            }
-            index++;
-        }
-        if(itemEncontrado == false) {
-            System.out.println("No se encontro ese objeto");
-        }
-    }
-
-    /**
-     * Suelta un objeto en la localización actual
-     */
-    private void dropItem(Command command) {
-        if(!command.hasSecondWord()) {
-            System.out.println("Drop what?");
-            return;
-        }
-        String descripcionItem = command.getSecondWord();
-
-        ArrayList<Item> itemsPlayer = player.devolverItems();
-        boolean itemEncontrado = false;
-        int index = 0;
-        while (!itemEncontrado && index<itemsPlayer.size()) {
-            if(itemsPlayer.get(index).getDescripcionItem().equals(descripcionItem)) {
-                itemEncontrado = true;
-
-                // Crea una copia del item del jugador que coincida con la descripcion del comando
-                Item item = player.buscarItemPlayer(descripcionItem);
-                // Añade el item a la localización
-                currentRoom.addItem(item.getDescripcionItem(),item.getPesoItem());
-                // Borra el item del jugador
-                player.reomveItemPlayer(item);
-                // Muestra por pantalla la información de la localización
-                printLocationInfo();
-                System.out.println();
-            }
-            index++;
-        }
-        if(itemEncontrado == false) {
-            System.out.println("No se encontro ese objeto");
-        }
-    }
-
-    /**
-     * Muestra por pantalla la lista de objetos que tiene el jugador
-     */
-    private void showItemsPlayer() {
-        if(player.devolverItems().size() != 0) {
-            ArrayList<Item> listaItems = player.devolverItems();
-            for(Item itemEnLista : listaItems) {
-                System.out.println(itemEnLista.informacionItem());
-            }
-        }
-        else {
-            System.out.print("El jugador no tiene objetos\n");
-        }
-    }
 }
