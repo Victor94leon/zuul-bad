@@ -130,38 +130,37 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
+        Option commandWord = command.getCommandWord();
         if(command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
-
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
+  
+        if (commandWord == Option.HELP) {
             printHelp();
         }
-        else if (commandWord.equals("go")) {
+        else if (commandWord == Option.GO) {
             player.goRoom(command);
         }
-        else if (commandWord.equals("quit")) {
+        else if (commandWord == Option.QUIT) {
             wantToQuit = quit(command);
         }
-        else if (commandWord.equals("look")) {
+        else if (commandWord == Option.LOOK) {
             player.printLocationInfo();
         }
-        else if (commandWord.equals("eat")) {
+        else if (commandWord == Option.EAT) {
             System.out.println("You have eaten now and you are not hungry any more");
         }
-        else if(commandWord.equals("back")) {
+        else if(commandWord == Option.BACK) {
             player.backRoom();
         }
-        else if (commandWord.equals("take")) {
+        else if (commandWord == Option.TAKE) {
             player.takeItem(command.getSecondWord());
         }
-        else if (commandWord.equals("drop")) {
+        else if (commandWord == Option.DROP) {
             player.dropItem(command.getSecondWord());
         }
-        else if (commandWord.equals("items")) {
+        else if (commandWord == Option.ITEMS) {
             player.showItemsPlayer();
         }
         return wantToQuit;
@@ -182,8 +181,6 @@ public class Game
         parser.printCommandWords();
     }
 
-
-
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
@@ -199,6 +196,4 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-
-
 }
