@@ -12,24 +12,18 @@ import java.util.HashMap;
 
 public class CommandWords
 {
-    private HashMap<String,Option> validCommands;       
-
+    private HashMap<String,Option> validCommands;  
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        validCommands = new HashMap<String,Option>();
-        validCommands.put("andare",Option.GO);
-        validCommands.put("smettere",Option.QUIT);
-        validCommands.put("aiuto",Option.HELP);
-        validCommands.put("guarda",Option.LOOK);
-        validCommands.put("mangiare",Option.EAT);
-        validCommands.put("indietro",Option.BACK);
-        validCommands.put("prendere",Option.TAKE);
-        validCommands.put("cadere",Option.DROP);
-        validCommands.put("articoli",Option.ITEMS);
-        validCommands.put("unknown",Option.UNKNOWN);
+        validCommands = new HashMap<String,Option>();        
+        Option[] options = Option.values();
+        for(int i = 0; i<options.length; i++) {
+            validCommands.put(options[i].getOptionString(),options[i]);
+        }
+        
     }
 
     /**
@@ -60,11 +54,11 @@ public class CommandWords
      *         if it is not a valid command word
      */
     public Option getCommandWord(String commandWord) {
-        Option opcion = Option.UNKNOWN;
-        if(isCommand(commandWord)) {
-            opcion = validCommands.get(commandWord);
+        Option option = validCommands.get(commandWord);
+        if(option == null) {
+            option = Option.UNKNOWN;
         }
-        return opcion;
+        return option;
     }
     
     
