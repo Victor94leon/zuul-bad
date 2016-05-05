@@ -136,6 +136,8 @@ public class Game
             return false;
         }
   
+        
+        
         switch(commandWord) {
             case HELP:
             printHelp();
