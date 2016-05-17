@@ -9,6 +9,7 @@ public enum Option
     TAKE("take"),
     DROP("drop"),
     ITEMS("items"),
+    FINISH("finish"),
     UNKNOWN("unknown");
     
     private String nombreComando;
