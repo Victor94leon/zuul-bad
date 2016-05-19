@@ -1,5 +1,6 @@
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,6 +22,7 @@ public class Game
 {
     private Parser parser;
     private Player player;
+    private Player otroPersonaje;
     private Room salida;
     private Item llave;
     private static final String NORTH = "north";
@@ -29,7 +31,9 @@ public class Game
     private static final String SOUTH = "south";
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
-    
+    private ArrayList<Item> listaItems;
+    private ArrayList<Room> listaRooms;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -37,6 +41,9 @@ public class Game
     {
         parser = new Parser();
         player = new Player();
+        otroPersonaje = new Player();
+        listaItems = new ArrayList<>();
+        listaRooms = new ArrayList<>();
         createRooms();
     }
 
@@ -49,12 +56,19 @@ public class Game
 
         // create the rooms
         terraza = new Room("una terraza");
+        listaRooms.add(terraza);
         salon = new Room("el salón de la casa");
+        listaRooms.add(salon);
         habitacion = new Room("el dormitorio");
+        listaRooms.add(habitacion);
         pasillo = new Room("el pasillo central de la casa");
+        listaRooms.add(pasillo);
         salida = new Room("la puerta de salida");
+        listaRooms.add(salida);
         cocina = new Room("la cocina");
+        listaRooms.add(cocina);
         despensa = new Room("una pequeña despensa llena de comida");
+        listaRooms.add(despensa);
         // initialise room exits
         //Salidas de terraza
         terraza.setExit("east",salon);
@@ -85,11 +99,15 @@ public class Game
         habitacion.addItem("Zapatillas", 2,true);
         habitacion.addItem("Cazadora",4,true);
         habitacion.addItem("Ordenador", 6, true);
-        despensa.addItem("Llave", 1,true);
+
         pasillo.addItem("Paraguas",2,true);
         salon.addItem("Tele",3,false);
         salon.addItem("Mando",1,true);
-        player.setCurrentRoom(habitacion);  //start game outside
+
+        addItemsCollection();
+        player.setCurrentRoom(habitacion);
+        copyItemsToPlayer(otroPersonaje);
+        otroPersonaje.setCurrentRoom(pasillo);
         this.salida = salida;
     }
 
@@ -138,46 +156,52 @@ public class Game
             System.out.println("I don't know what you mean...");
             return false;
         }
-  
-        
-        
+
         switch(commandWord) {
             case HELP:
             printHelp();
             break;
-            
+
             case GO:
             player.goRoom(command);
-            break;
+            printComprobarItems();
+
             
+            
+            
+            break;
+
             case QUIT:
             wantToQuit = quit(command);
             break;
-            
+
             case LOOK:
             player.printLocationInfo();
             break;
-            
+
             case EAT:
             System.out.println("You have eaten now and you are not hungry any more");
             break;
-            
+
             case BACK:
             player.backRoom();
-            break;
+            printComprobarItems();
+
             
+            
+            break;
             case TAKE:
             player.takeItem(command.getSecondWord());
             break;
-            
+
             case DROP:
             player.dropItem(command.getSecondWord());
             break;
-            
+
             case ITEMS:
             player.showItemsPlayer();
             break;
-            
+
             case FINISH:
             if(player.getCurrentRoom() != salida) {
                 System.out.println("No estas en la salida");
@@ -224,6 +248,76 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
+        }
+    }
+
+    /**
+     * Comprueba si dos objetos de la clase Player estan en la misma habitación
+     */
+    private boolean mismaHabitacion(Player player1, Player player2) {
+        boolean mismaHabitacion = false;
+        if(player1.getCurrentRoom() == player2.getCurrentRoom()) {
+            mismaHabitacion = true;
+        }
+        return mismaHabitacion;
+    }
+
+    /**
+     * Comprueba si el jugador y el otro personaje estan en la misma habitacion y muestra por pantalla
+     * el mensaje del otro personaje 
+     */
+    private void printComprobarItems() {
+        if(mismaHabitacion(player,otroPersonaje)) { 
+            int ItemsEncontrados = 0;
+            for(Item itemPersonaje : otroPersonaje.getPlayerItems()) {
+                boolean itemEncontrado = false;
+                int i = 0;
+                while(!itemEncontrado && i<player.getPlayerItems().size()) {
+                    if(player.getPlayerItems().get(i) == itemPersonaje) {
+                        ItemsEncontrados++;
+                    }
+                    i++;
+                }
+            }
+            if(ItemsEncontrados == otroPersonaje.getPlayerItems().size()) {
+                otroPersonaje.getCurrentRoom().addItem("Llave", 1,true);
+                System.out.println("-----Muy bien, ahora puede coger la Llave en esta sala-----");
+            }
+            else {
+                ArrayList<Item> items = otroPersonaje.getPlayerItems();
+                System.out.println("-----Hay una persona en la sala-----");
+                System.out.println("Hola, para poder darte la Llave tienes que \nentrar en la sala con siguientes objetos: \n" 
+                    + items.get(0).getDescripcionItem() + " y " + items.get(1).getDescripcionItem());
+            }  
+        }
+    }
+
+    /**
+     * Añade todos los items del juego a una coleccion
+     */
+    public void addItemsCollection() {        
+        for(Room roomEnLista : listaRooms) {
+            ArrayList<Item> itemsSala = roomEnLista.getListaItems();
+            for(Item itemEnLista : itemsSala) {
+                listaItems.add(itemEnLista);
+            }
+        }
+    }
+
+    /**
+     * Copia dos objetos de la lista al inventario de un personaje
+     */
+    public void copyItemsToPlayer(Player jugador) {
+        Random rdm = new Random();
+        ArrayList<Item> puedenCogerse = new ArrayList<>();
+        for(Item itemEnLista : listaItems) {
+            if (itemEnLista.puedeSerCogido() && itemEnLista.getPesoItem() <= 3) {
+                puedenCogerse.add(itemEnLista);
+            }
+        }
+        for(int i = 0; i<2; i++) {
+            int numLista = rdm.nextInt(puedenCogerse.size());
+            otroPersonaje.addItem(puedenCogerse.get(numLista));
         }
     }
 }

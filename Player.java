@@ -162,4 +162,18 @@ public class Player
         }
         return itemEncontrado;
     }
+    
+    /**
+     * Añade un item al inventario
+     */
+    public void addItem(Item item) {
+        playerItems.add(item);
+    }
+    
+    /**
+     * Devuelve una coleccion con los objetos del inventario
+     */
+    public ArrayList<Item> getPlayerItems() {
+        return playerItems;
+    }
 }
