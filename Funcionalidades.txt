@@ -1,0 +1,6 @@
+1.- Añadir un nuevo comando para abrir la puerta de salida y finalizar el juego, que solo se podrá llevar a cabo si el jugador tiene el item "Llave".
+
+2.- Añadir un nuevo personaje que te pedirá que sueltes una serie de items aleatorios de otras localizaciones en su localización y a cambio el soltará el item "Llave".
+
+
+git merge --no-ff (nombreRama) -m "(commit)"
