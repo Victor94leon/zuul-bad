@@ -26,6 +26,13 @@ public class Player
         }
         return pesoAlmacenado;
     }
+    
+    /**
+     * Devuelve la habitación donde se encuentra el jugador
+     */
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
 
     /**
      * Asigna un valor a currentRoom
@@ -138,5 +145,21 @@ public class Player
         else {
             System.out.print("El jugador no tiene objetos\n");
         }
+    }
+    
+    /**
+     * Busca un objeto entre los items del jugador devolviendo true si lo tiene
+     * o false en caso contrario
+     */
+    public boolean estaElItem(String description) {
+        boolean itemEncontrado = false;
+        if(playerItems.size()!=0) {
+            for(int i = 0; i<playerItems.size() && !itemEncontrado; i++) {
+                if(playerItems.get(i).getDescripcionItem().equals(description)) {
+                    itemEncontrado = true;
+                }
+            }
+        }
+        return itemEncontrado;
     }
 }

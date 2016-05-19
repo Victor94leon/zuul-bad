@@ -21,6 +21,8 @@ public class Game
 {
     private Parser parser;
     private Player player;
+    private Room salida;
+    private Item llave;
     private static final String NORTH = "north";
     private static final String EAST = "east";
     private static final String SOUTHEAST = "southeast";
@@ -88,6 +90,7 @@ public class Game
         salon.addItem("Tele",3,false);
         salon.addItem("Mando",1,true);
         player.setCurrentRoom(habitacion);  //start game outside
+        this.salida = salida;
     }
 
     /**
@@ -136,6 +139,8 @@ public class Game
             return false;
         }
   
+        
+        
         switch(commandWord) {
             case HELP:
             printHelp();
@@ -171,6 +176,21 @@ public class Game
             
             case ITEMS:
             player.showItemsPlayer();
+            break;
+            
+            case FINISH:
+            if(player.getCurrentRoom() != salida) {
+                System.out.println("No estas en la salida");
+            }
+            else {
+                if(player.estaElItem("Llave")) {
+                    System.out.println("Has conseguido salir de la casa \nJUEGO FINALIZADO");
+                    wantToQuit = quit(command);
+                }
+                else {
+                    System.out.println("No tienes la llave para salir");
+                }
+            }
             break;
         }
         return wantToQuit;

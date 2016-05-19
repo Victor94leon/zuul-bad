@@ -1,14 +1,15 @@
 public enum Option
 {
-    GO("andare"),
-    QUIT("smettere"),
-    HELP("aiuto"),
-    LOOK("guarda"),
-    EAT("mangiare"),
-    BACK("indietro"),
-    TAKE("prendere"),
-    DROP("cadere"),
-    ITEMS("articoli"),
+    GO("go"),
+    QUIT("quit"),
+    HELP("help"),
+    LOOK("look"),
+    EAT("eat"),
+    BACK("back"),
+    TAKE("take"),
+    DROP("drop"),
+    ITEMS("items"),
+    FINISH("finish"),
     UNKNOWN("unknown");
     
     private String nombreComando;
