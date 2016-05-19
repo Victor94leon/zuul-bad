@@ -21,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Player player;
+    private Player otroPersonaje;
     private Room salida;
     private Item llave;
     private static final String NORTH = "north";
@@ -29,7 +30,8 @@ public class Game
     private static final String SOUTH = "south";
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
-    
+    private ArrayList<Item> listaItems;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -37,6 +39,8 @@ public class Game
     {
         parser = new Parser();
         player = new Player();
+        otroPersonaje = new Player();
+        listaItems = new ArrayList<>();
         createRooms();
     }
 
@@ -89,7 +93,9 @@ public class Game
         pasillo.addItem("Paraguas",2,true);
         salon.addItem("Tele",3,false);
         salon.addItem("Mando",1,true);
+
         player.setCurrentRoom(habitacion);  //start game outside
+        otroPersonaje.setCurrentRoom(pasillo);
         this.salida = salida;
     }
 
@@ -138,46 +144,48 @@ public class Game
             System.out.println("I don't know what you mean...");
             return false;
         }
-  
-        
+
         
         switch(commandWord) {
             case HELP:
             printHelp();
             break;
-            
+
             case GO:
             player.goRoom(command);
+            if(mismaHabitacion(player,otroPersonaje)) {
+                
+            }
             break;
-            
+
             case QUIT:
             wantToQuit = quit(command);
             break;
-            
+
             case LOOK:
             player.printLocationInfo();
             break;
-            
+
             case EAT:
             System.out.println("You have eaten now and you are not hungry any more");
             break;
-            
+
             case BACK:
             player.backRoom();
             break;
-            
+
             case TAKE:
             player.takeItem(command.getSecondWord());
             break;
-            
+
             case DROP:
             player.dropItem(command.getSecondWord());
             break;
-            
+
             case ITEMS:
             player.showItemsPlayer();
             break;
-            
+
             case FINISH:
             if(player.getCurrentRoom() != salida) {
                 System.out.println("No estas en la salida");
@@ -224,6 +232,27 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
+        }
+    }
+
+    /**
+     * Comprueba si dos objetos de la clase Player estan en la misma habitación
+     */
+    private boolean mismaHabitacion(Player player1, Player player2) {
+        boolean mismaHabitacion = false;
+        if(player1.getCurrentRoom() == player2.getCurrentRoom()) {
+            mismaHabitacion = true;
+        }
+        return mismaHabitacion;
+    }
+    
+    /**
+     * Comprueba si el jugador y el otro personaje estan en la misma habitacion y muestra por pantalla
+     * el mensaje del otro personaje 
+     */
+    private void printMensajePersonaje() {
+        if(mismaHabitacion(player,otroPersonaje)) {
+            System.out.println("Hay una persona en la sala");
         }
     }
 }
