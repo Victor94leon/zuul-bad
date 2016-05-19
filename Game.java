@@ -295,7 +295,7 @@ public class Game
     /**
      * Añade todos los items del juego a una coleccion
      */
-    public void addItemsCollection() {        
+    private void addItemsCollection() {        
         for(Room roomEnLista : listaRooms) {
             ArrayList<Item> itemsSala = roomEnLista.getListaItems();
             for(Item itemEnLista : itemsSala) {
@@ -307,7 +307,7 @@ public class Game
     /**
      * Copia dos objetos de la lista al inventario de un personaje
      */
-    public void copyItemsToPlayer(Player jugador) {
+    private void copyItemsToPlayer(Player jugador) {
         Random rdm = new Random();
         ArrayList<Item> puedenCogerse = new ArrayList<>();
         for(Item itemEnLista : listaItems) {
