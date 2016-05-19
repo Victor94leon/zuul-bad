@@ -1,5 +1,6 @@
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -104,7 +105,8 @@ public class Game
         salon.addItem("Mando",1,true);
         
         addItemsCollection();
-        player.setCurrentRoom(habitacion);  //start game outside
+        player.setCurrentRoom(habitacion);
+        copyItemsToPlayer(otroPersonaje);
         otroPersonaje.setCurrentRoom(pasillo);
         this.salida = salida;
     }
@@ -275,6 +277,23 @@ public class Game
             for(Item itemEnLista : itemsSala) {
                 listaItems.add(itemEnLista);
             }
+        }
+    }
+    
+    /**
+     * Copia dos objetos de la lista al inventario de un personaje
+     */
+    public void copyItemsToPlayer(Player jugador) {
+        Random rdm = new Random();
+        ArrayList<Item> puedenCogerse = new ArrayList<>();
+        for(Item itemEnLista : listaItems) {
+            if (itemEnLista.puedeSerCogido()) {
+                puedenCogerse.add(itemEnLista);
+            }
+        }
+        for(int i = 0; i<2; i++) {
+            int numLista = rdm.nextInt(puedenCogerse.size());
+            otroPersonaje.addItem(puedenCogerse.get(numLista));
         }
     }
 }

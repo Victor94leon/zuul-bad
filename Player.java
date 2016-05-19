@@ -162,4 +162,11 @@ public class Player
         }
         return itemEncontrado;
     }
+    
+    /**
+     * Añade un item al inventario
+     */
+    public void addItem(Item item) {
+        playerItems.add(item);
+    }
 }
