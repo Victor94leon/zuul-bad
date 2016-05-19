@@ -169,4 +169,11 @@ public class Player
     public void addItem(Item item) {
         playerItems.add(item);
     }
+    
+    /**
+     * Devuelve una coleccion con los objetos del inventario
+     */
+    public ArrayList<Item> getPlayerItems() {
+        return playerItems;
+    }
 }

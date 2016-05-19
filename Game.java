@@ -99,11 +99,11 @@ public class Game
         habitacion.addItem("Zapatillas", 2,true);
         habitacion.addItem("Cazadora",4,true);
         habitacion.addItem("Ordenador", 6, true);
-        despensa.addItem("Llave", 1,true);
+
         pasillo.addItem("Paraguas",2,true);
         salon.addItem("Tele",3,false);
         salon.addItem("Mando",1,true);
-        
+
         addItemsCollection();
         player.setCurrentRoom(habitacion);
         copyItemsToPlayer(otroPersonaje);
@@ -157,7 +157,6 @@ public class Game
             return false;
         }
 
-        
         switch(commandWord) {
             case HELP:
             printHelp();
@@ -165,9 +164,11 @@ public class Game
 
             case GO:
             player.goRoom(command);
-            if(mismaHabitacion(player,otroPersonaje)) {
-                
-            }
+            printComprobarItems();
+
+            
+            
+            
             break;
 
             case QUIT:
@@ -184,8 +185,11 @@ public class Game
 
             case BACK:
             player.backRoom();
-            break;
+            printComprobarItems();
 
+            
+            
+            break;
             case TAKE:
             player.takeItem(command.getSecondWord());
             break;
@@ -257,17 +261,37 @@ public class Game
         }
         return mismaHabitacion;
     }
-    
+
     /**
      * Comprueba si el jugador y el otro personaje estan en la misma habitacion y muestra por pantalla
      * el mensaje del otro personaje 
      */
-    private void printMensajePersonaje() {
-        if(mismaHabitacion(player,otroPersonaje)) {
-            System.out.println("Hay una persona en la sala");
+    private void printComprobarItems() {
+        if(mismaHabitacion(player,otroPersonaje)) { 
+            int ItemsEncontrados = 0;
+            for(Item itemPersonaje : otroPersonaje.getPlayerItems()) {
+                boolean itemEncontrado = false;
+                int i = 0;
+                while(!itemEncontrado && i<player.getPlayerItems().size()) {
+                    if(player.getPlayerItems().get(i) == itemPersonaje) {
+                        ItemsEncontrados++;
+                    }
+                    i++;
+                }
+            }
+            if(ItemsEncontrados == otroPersonaje.getPlayerItems().size()) {
+                otroPersonaje.getCurrentRoom().addItem("Llave", 1,true);
+                System.out.println("-----Muy bien, ahora puede coger la Llave en esta sala-----");
+            }
+            else {
+                ArrayList<Item> items = otroPersonaje.getPlayerItems();
+                System.out.println("-----Hay una persona en la sala-----");
+                System.out.println("Hola, para poder darte la Llave tienes que \nentrar en la sala con siguientes objetos: \n" 
+                    + items.get(0).getDescripcionItem() + " y " + items.get(1).getDescripcionItem());
+            }  
         }
     }
-    
+
     /**
      * Añade todos los items del juego a una coleccion
      */
@@ -279,7 +303,7 @@ public class Game
             }
         }
     }
-    
+
     /**
      * Copia dos objetos de la lista al inventario de un personaje
      */
@@ -287,7 +311,7 @@ public class Game
         Random rdm = new Random();
         ArrayList<Item> puedenCogerse = new ArrayList<>();
         for(Item itemEnLista : listaItems) {
-            if (itemEnLista.puedeSerCogido()) {
+            if (itemEnLista.puedeSerCogido() && itemEnLista.getPesoItem() <= 3) {
                 puedenCogerse.add(itemEnLista);
             }
         }
