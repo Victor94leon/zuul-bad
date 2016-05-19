@@ -31,6 +31,7 @@ public class Game
     private static final String WEST = "west";
     private static final String NORTHWEST = "northwest";
     private ArrayList<Item> listaItems;
+    private ArrayList<Room> listaRooms;
 
     /**
      * Create the game and initialise its internal map.
@@ -41,6 +42,7 @@ public class Game
         player = new Player();
         otroPersonaje = new Player();
         listaItems = new ArrayList<>();
+        listaRooms = new ArrayList<>();
         createRooms();
     }
 
@@ -53,12 +55,19 @@ public class Game
 
         // create the rooms
         terraza = new Room("una terraza");
+        listaRooms.add(terraza);
         salon = new Room("el salón de la casa");
+        listaRooms.add(salon);
         habitacion = new Room("el dormitorio");
+        listaRooms.add(habitacion);
         pasillo = new Room("el pasillo central de la casa");
+        listaRooms.add(pasillo);
         salida = new Room("la puerta de salida");
+        listaRooms.add(salida);
         cocina = new Room("la cocina");
+        listaRooms.add(cocina);
         despensa = new Room("una pequeña despensa llena de comida");
+        listaRooms.add(despensa);
         // initialise room exits
         //Salidas de terraza
         terraza.setExit("east",salon);
@@ -93,7 +102,8 @@ public class Game
         pasillo.addItem("Paraguas",2,true);
         salon.addItem("Tele",3,false);
         salon.addItem("Mando",1,true);
-
+        
+        addItemsCollection();
         player.setCurrentRoom(habitacion);  //start game outside
         otroPersonaje.setCurrentRoom(pasillo);
         this.salida = salida;
@@ -253,6 +263,18 @@ public class Game
     private void printMensajePersonaje() {
         if(mismaHabitacion(player,otroPersonaje)) {
             System.out.println("Hay una persona en la sala");
+        }
+    }
+    
+    /**
+     * Añade todos los items del juego a una coleccion
+     */
+    public void addItemsCollection() {        
+        for(Room roomEnLista : listaRooms) {
+            ArrayList<Item> itemsSala = roomEnLista.getListaItems();
+            for(Item itemEnLista : itemsSala) {
+                listaItems.add(itemEnLista);
+            }
         }
     }
 }

@@ -131,4 +131,11 @@ public class Room
             index++;
         }
     }
+    
+    /**
+     * Devuelve una coleccion ocn los objetos de la sala 
+     */
+    public ArrayList<Item> getListaItems() {
+        return listaItems;
+    }
 }
